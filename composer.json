@@ -1,0 +1,66 @@
+{
+    "name": "ahmed-ashraf/auth",
+    "description": "Multi-vendor authentication package with roles, OTP, email/phone verification (Blade + API). Spatie Permission compatible.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "auth",
+        "authentication",
+        "otp",
+        "multi-vendor",
+        "sanctum",
+        "roles"
+    ],
+    "authors": [
+        {
+            "name": "Ahmed Ashraf",
+            "email": "ahmedashraf4063@gmail.com"
+        }
+    ],
+    "homepage": "https://github.com/ahmed29920/laravel-auth",
+    "support": {
+        "issues": "https://github.com/ahmed29920/laravel-auth/issues",
+        "source": "https://github.com/ahmed29920/laravel-auth"
+    },
+    "require": {
+        "php": "^8.3",
+        "illuminate/support": "^11.0|^12.0|^13.0",
+        "illuminate/database": "^11.0|^12.0|^13.0",
+        "illuminate/http": "^11.0|^12.0|^13.0",
+        "illuminate/routing": "^11.0|^12.0|^13.0",
+        "illuminate/auth": "^11.0|^12.0|^13.0",
+        "illuminate/notifications": "^11.0|^12.0|^13.0",
+        "laravel/sanctum": "^4.0",
+        "spatie/laravel-translatable": "^6.14"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^9.0|^10.0",
+        "phpunit/phpunit": "^11.0"
+    },
+    "suggest": {
+        "spatie/laravel-permission": "Use Spatie Permission for roles instead of the built-in enum column (^6.0)."
+    },
+    "autoload": {
+        "psr-4": {
+            "AhmedAshraf\\Auth\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "AhmedAshraf\\Auth\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "AhmedAshraf\\Auth\\AuthServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
