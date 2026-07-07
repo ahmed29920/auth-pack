@@ -14,6 +14,7 @@ composer require ashtech/laravel-auth-kit
 
 - PHP `^8.3`
 - Laravel `^11.0`, `^12.0`, or `^13.0`
+- Node.js & npm (host app — required for Blade UI assets via Vite)
 - [laravel/sanctum](https://github.com/laravel/sanctum) `^4.0` (required dependency; host app must run Sanctum migrations)
 - [spatie/laravel-translatable](https://github.com/spatie/laravel-translatable) `^6.14` (installed automatically with this package)
 
@@ -211,6 +212,23 @@ Route::middleware(['auth', 'verified'])->group(function () {
 php artisan config:clear
 ```
 
+### 9. Frontend assets (Web UI)
+
+The package Blade views use your host app’s Vite entry points (`resources/css/app.css`, `resources/js/app.js`) and Tailwind CSS classes. Build assets before visiting `/auth`:
+
+```bash
+npm install
+npm run build
+```
+
+For local development with hot reload:
+
+```bash
+npm run dev
+```
+
+> Skip this step if you disabled the web client (`laravel-auth-kit.clients.web = false`) and use the API only.
+
 ---
 
 ## Configuration
@@ -351,6 +369,7 @@ composer test
 - [ ] `AUTH_KIT_VENDOR_REGISTRATION` set intentionally (disabled by default)
 - [ ] `AUTH_KIT_SMS_SENDER` configured (do not rely on log driver in production)
 - [ ] `verified` middleware registered; guest redirect configured if needed
+- [ ] `npm install` and `npm run build` run in the host app (Web UI)
 - [ ] `php artisan config:cache` run in deployment pipeline after env is set
 - [ ] HTTPS enabled for session cookies and Sanctum tokens
 
