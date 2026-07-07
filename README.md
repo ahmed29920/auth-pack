@@ -106,17 +106,15 @@ Available publish tags:
 
 By default, migrations and views are loaded from the package — publishing is optional.
 
-### 3. Users table / migrations
+### 3. Database migrations
 
-The package registers migrations for:
+The package registers migrations that extend a standard Laravel app:
 
-- `users` (with `role`, `phone`, `vendor_id`, verification timestamps, soft deletes)
-- `otps` (hashed OTP codes)
-- `password_reset_tokens` (Laravel-compatible email reset table)
+- **users** — adds `phone`, `role`, `vendor_id`, `phone_verified_at`, `is_active`, soft deletes (works with Laravel’s default `users` table)
+- **otps** — hashed OTP codes
+- **password_reset_tokens** — skipped automatically if Laravel already created it
 
-> **Important:** If your Laravel app already has a default `create_users_table` or `password_reset_tokens` migration, **remove or skip the duplicate** before running `php artisan migrate`.
-
-Then migrate:
+No need to remove Laravel’s default migrations. Run:
 
 ```bash
 php artisan migrate
@@ -346,7 +344,7 @@ composer test
 
 - [ ] Package installed via Composer (Packagist or tagged VCS release)
 - [ ] Sanctum migrations published and run in the host app
-- [ ] No duplicate Laravel `users` migration
+- [ ] `php artisan migrate` completed (package extends default Laravel tables)
 - [ ] `App\Models\User` extends package base user
 - [ ] `config/auth.php` provider uses `App\Models\User`
 - [ ] `.env` auth method and verification flags set for your product

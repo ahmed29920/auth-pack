@@ -10,7 +10,35 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        if (! Schema::hasTable('users')) {
+            $this->createUsersTable();
+
+            return;
+        }
+
+        $this->addAuthKitColumnsToUsersTable();
+    }
+
+    public function down(): void
+    {
+        if (! Schema::hasTable('users')) {
+            return;
+        }
+
+        Schema::table('users', function (Blueprint $table): void {
+            $columns = ['phone', 'role', 'vendor_id', 'phone_verified_at', 'is_active', 'deleted_at'];
+
+            foreach ($columns as $column) {
+                if (Schema::hasColumn('users', $column)) {
+                    $table->dropColumn($column);
+                }
+            }
+        });
+    }
+
+    protected function createUsersTable(): void
+    {
+        Schema::create('users', function (Blueprint $table): void {
             $table->id();
             $table->string('name');
             $table->string('email')->nullable()->unique();
@@ -27,8 +55,44 @@ return new class extends Migration
         });
     }
 
-    public function down(): void
+    protected function addAuthKitColumnsToUsersTable(): void
     {
-        Schema::dropIfExists('users');
+        Schema::table('users', function (Blueprint $table): void {
+            if (! Schema::hasColumn('users', 'phone')) {
+                $table->string('phone')->nullable()->unique()->after('email');
+            }
+
+            if (! Schema::hasColumn('users', 'role')) {
+                $table->string('role')->default('customer')->after('password');
+            }
+
+            if (! Schema::hasColumn('users', 'vendor_id')) {
+                $table->foreignId('vendor_id')->nullable()->index()->after('role');
+            }
+
+            if (! Schema::hasColumn('users', 'phone_verified_at')) {
+                $table->timestamp('phone_verified_at')->nullable()->after('email_verified_at');
+            }
+
+            if (! Schema::hasColumn('users', 'is_active')) {
+                $table->boolean('is_active')->default(true)->after('phone_verified_at');
+            }
+
+            if (! Schema::hasColumn('users', 'deleted_at')) {
+                $table->softDeletes();
+            }
+        });
+
+        if (Schema::hasColumn('users', 'email')) {
+            Schema::table('users', function (Blueprint $table): void {
+                $table->string('email')->nullable()->change();
+            });
+        }
+
+        if (Schema::hasColumn('users', 'password')) {
+            Schema::table('users', function (Blueprint $table): void {
+                $table->string('password')->nullable()->change();
+            });
+        }
     }
 };
