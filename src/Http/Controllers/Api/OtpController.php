@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace AhmedAshraf\Auth\Http\Controllers\Api;
+namespace Ashtech\LaravelAuthKit\Http\Controllers\Api;
 
 use Illuminate\Routing\Controller;
-use AhmedAshraf\Auth\Contracts\UserRepositoryInterface;
-use AhmedAshraf\Auth\Enums\OtpChannel;
-use AhmedAshraf\Auth\Enums\OtpPurpose;
-use AhmedAshraf\Auth\Http\Requests\Api\SendOtpRequest;
-use AhmedAshraf\Auth\Http\Requests\Api\VerifyOtpRequest;
-use AhmedAshraf\Auth\Services\AuthService;
-use AhmedAshraf\Auth\Services\OtpService;
-use AhmedAshraf\Auth\Support\ApiResponse;
-use AhmedAshraf\Auth\Support\OtpSendValidator;
+use Ashtech\LaravelAuthKit\Contracts\UserRepositoryInterface;
+use Ashtech\LaravelAuthKit\Enums\OtpChannel;
+use Ashtech\LaravelAuthKit\Enums\OtpPurpose;
+use Ashtech\LaravelAuthKit\Http\Requests\Api\SendOtpRequest;
+use Ashtech\LaravelAuthKit\Http\Requests\Api\VerifyOtpRequest;
+use Ashtech\LaravelAuthKit\Services\AuthService;
+use Ashtech\LaravelAuthKit\Services\OtpService;
+use Ashtech\LaravelAuthKit\Support\ApiResponse;
+use Ashtech\LaravelAuthKit\Support\OtpSendValidator;
 
 class OtpController extends Controller
 {
@@ -48,7 +48,7 @@ class OtpController extends Controller
 
         if ($purpose === OtpPurpose::Login) {
             if (! OtpSendValidator::channelEnabled($channel)) {
-                return ApiResponse::error(__('kango-auth::auth.otp.channel_disabled'), 422);
+                return ApiResponse::error(__('laravel-auth-kit::auth.otp.channel_disabled'), 422);
             }
 
             $result = $this->authService->login([

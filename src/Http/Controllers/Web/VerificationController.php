@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace AhmedAshraf\Auth\Http\Controllers\Web;
+namespace Ashtech\LaravelAuthKit\Http\Controllers\Web;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Validation\ValidationException;
-use AhmedAshraf\Auth\Exceptions\InvalidOtpException;
-use AhmedAshraf\Auth\Http\Requests\Api\VerifyContactRequest;
-use AhmedAshraf\Auth\Services\VerificationService;
-use AhmedAshraf\Auth\Support\AuthRedirect;
+use Ashtech\LaravelAuthKit\Exceptions\InvalidOtpException;
+use Ashtech\LaravelAuthKit\Http\Requests\Api\VerifyContactRequest;
+use Ashtech\LaravelAuthKit\Services\VerificationService;
+use Ashtech\LaravelAuthKit\Support\AuthRedirect;
 
 class VerificationController extends Controller
 {
@@ -26,7 +26,7 @@ class VerificationController extends Controller
             return redirect()->to(AuthRedirect::homeFor($user));
         }
 
-        return view('kango-auth::auth.verify', [
+        return view('laravel-auth-kit::auth.verify', [
             'user' => $user,
             'pending' => $user->pendingVerificationChannels(),
         ]);
@@ -64,7 +64,7 @@ class VerificationController extends Controller
 
         $this->verificationService->sendEmailVerification($user);
 
-        return back()->with('status', __('kango-auth::auth.verify.email_sent'));
+        return back()->with('status', __('laravel-auth-kit::auth.verify.email_sent'));
     }
 
     public function resendPhone(Request $request)
@@ -77,7 +77,7 @@ class VerificationController extends Controller
 
         $this->verificationService->sendPhoneVerification($user);
 
-        return back()->with('status', __('kango-auth::auth.verify.phone_sent'));
+        return back()->with('status', __('laravel-auth-kit::auth.verify.phone_sent'));
     }
 
     protected function redirectAfterVerification(Request $request)
@@ -86,12 +86,12 @@ class VerificationController extends Controller
 
         if ($user->needsVerification()) {
             return redirect()
-                ->route('kango.auth.verify')
-                ->with('status', __('kango-auth::auth.verify.partial_success'));
+                ->route('auth-kit.verify')
+                ->with('status', __('laravel-auth-kit::auth.verify.partial_success'));
         }
 
         return redirect()
             ->to(AuthRedirect::homeFor($user))
-            ->with('status', __('kango-auth::auth.verify.completed'));
+            ->with('status', __('laravel-auth-kit::auth.verify.completed'));
     }
 }

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace AhmedAshraf\Auth\Http\Requests\Concerns;
+namespace Ashtech\LaravelAuthKit\Http\Requests\Concerns;
 
-use AhmedAshraf\Auth\Support\TranslationMapper;
+use Ashtech\LaravelAuthKit\Support\TranslationMapper;
 
 trait NormalizesTranslationInput
 {

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace AhmedAshraf\Auth\Notifications;
+namespace Ashtech\LaravelAuthKit\Notifications;
 
 use Illuminate\Notifications\Notification;
-use AhmedAshraf\Auth\Mail\OtpCodeMail;
-use AhmedAshraf\Auth\Models\Otp;
+use Ashtech\LaravelAuthKit\Mail\OtpCodeMail;
+use Ashtech\LaravelAuthKit\Models\Otp;
 
 class OtpNotification extends Notification
 {

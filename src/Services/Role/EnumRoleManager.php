@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace AhmedAshraf\Auth\Services\Role;
+namespace Ashtech\LaravelAuthKit\Services\Role;
 
-use AhmedAshraf\Auth\Contracts\RoleManagerInterface;
-use AhmedAshraf\Auth\Enums\UserRole;
-use AhmedAshraf\Auth\Models\User;
+use Ashtech\LaravelAuthKit\Contracts\RoleManagerInterface;
+use Ashtech\LaravelAuthKit\Enums\UserRole;
+use Ashtech\LaravelAuthKit\Models\User;
 
 class EnumRoleManager implements RoleManagerInterface
 {
@@ -43,7 +43,7 @@ class EnumRoleManager implements RoleManagerInterface
 
     protected function assertValidRole(string $role): void
     {
-        if (! in_array($role, config('auth-package.roles', []), true)) {
+        if (! in_array($role, config('laravel-auth-kit.roles', []), true)) {
             throw new \InvalidArgumentException("Invalid role: {$role}");
         }
     }

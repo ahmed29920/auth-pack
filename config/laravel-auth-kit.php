@@ -9,7 +9,7 @@ return [
     | User model
     |--------------------------------------------------------------------------
     */
-    'user_model' => env('AUTH_PACKAGE_USER_MODEL', 'AhmedAshraf\\Auth\\Models\\User'),
+    'user_model' => env('AUTH_KIT_USER_MODEL', 'Ashtech\\LaravelAuthKit\\Models\\User'),
 
     /*
     |--------------------------------------------------------------------------
@@ -18,7 +18,7 @@ return [
     | enum   → uses `role` column on users table (default, no extra packages)
     | spatie → uses spatie/laravel-permission (install in host project)
     */
-    'role_driver' => env('AUTH_PACKAGE_ROLE_DRIVER', 'enum'),
+    'role_driver' => env('AUTH_KIT_ROLE_DRIVER', 'enum'),
 
     'roles' => [
         'super_admin',
@@ -35,15 +35,15 @@ return [
     |--------------------------------------------------------------------------
     | Self-registration roles
     |--------------------------------------------------------------------------
-    | By default only `customer` can register. Set AUTH_PACKAGE_VENDOR_REGISTRATION=true
+    | By default only `customer` can register. Set AUTH_KIT_VENDOR_REGISTRATION=true
     | to allow public vendor sign-up.
     */
-    'vendor_registration_enabled' => filter_var(env('AUTH_PACKAGE_VENDOR_REGISTRATION', false), FILTER_VALIDATE_BOOLEAN),
+    'vendor_registration_enabled' => filter_var(env('AUTH_KIT_VENDOR_REGISTRATION', false), FILTER_VALIDATE_BOOLEAN),
 
     'registration_allowed_roles' => (static function (): array {
         $roles = ['customer'];
 
-        if (filter_var(env('AUTH_PACKAGE_VENDOR_REGISTRATION', false), FILTER_VALIDATE_BOOLEAN)) {
+        if (filter_var(env('AUTH_KIT_VENDOR_REGISTRATION', false), FILTER_VALIDATE_BOOLEAN)) {
             $roles[] = 'vendor';
         }
 
@@ -64,10 +64,10 @@ return [
     |--------------------------------------------------------------------------
     */
     'methods' => [
-        'email_password' => filter_var(env('AUTH_PACKAGE_EMAIL_PASSWORD', false), FILTER_VALIDATE_BOOLEAN),
-        'phone_password' => filter_var(env('AUTH_PACKAGE_PHONE_PASSWORD', true), FILTER_VALIDATE_BOOLEAN),
-        'phone_otp' => filter_var(env('AUTH_PACKAGE_PHONE_OTP', false), FILTER_VALIDATE_BOOLEAN),
-        'email_otp' => filter_var(env('AUTH_PACKAGE_EMAIL_OTP', false), FILTER_VALIDATE_BOOLEAN),
+        'email_password' => filter_var(env('AUTH_KIT_EMAIL_PASSWORD', false), FILTER_VALIDATE_BOOLEAN),
+        'phone_password' => filter_var(env('AUTH_KIT_PHONE_PASSWORD', true), FILTER_VALIDATE_BOOLEAN),
+        'phone_otp' => filter_var(env('AUTH_KIT_PHONE_OTP', false), FILTER_VALIDATE_BOOLEAN),
+        'email_otp' => filter_var(env('AUTH_KIT_EMAIL_OTP', false), FILTER_VALIDATE_BOOLEAN),
     ],
 
     /*
@@ -128,20 +128,20 @@ return [
         'length' => 6,
         'expires_minutes' => 10,
         'max_attempts' => 5,
-        'throttle_seconds' => (int) env('AUTH_PACKAGE_OTP_THROTTLE_SECONDS', 60),
-        'throttle_max_attempts' => (int) env('AUTH_PACKAGE_OTP_THROTTLE_MAX', 1),
+        'throttle_seconds' => (int) env('AUTH_KIT_OTP_THROTTLE_SECONDS', 60),
+        'throttle_max_attempts' => (int) env('AUTH_KIT_OTP_THROTTLE_MAX', 1),
     ],
 
     /*
     |--------------------------------------------------------------------------
     | SMS (swappable per project)
     |--------------------------------------------------------------------------
-    | Set AUTH_PACKAGE_SMS_SENDER to your class implementing SmsSenderInterface.
+    | Set AUTH_KIT_SMS_SENDER to your class implementing SmsSenderInterface.
     | Default logs OTP codes when no provider is configured.
     */
     'sms' => [
-        'sender' => env('AUTH_PACKAGE_SMS_SENDER', \AhmedAshraf\Auth\Services\Sms\LogSmsSender::class),
-        'log_channel' => env('AUTH_PACKAGE_SMS_LOG_CHANNEL', 'stack'),
+        'sender' => env('AUTH_KIT_SMS_SENDER', \Ashtech\LaravelAuthKit\Services\Sms\LogSmsSender::class),
+        'log_channel' => env('AUTH_KIT_SMS_LOG_CHANNEL', 'stack'),
     ],
 
     /*
@@ -150,8 +150,8 @@ return [
     |--------------------------------------------------------------------------
     */
     'verification' => [
-        'email_required' => filter_var(env('AUTH_PACKAGE_EMAIL_VERIFICATION_REQUIRED', true), FILTER_VALIDATE_BOOLEAN),
-        'phone_required' => filter_var(env('AUTH_PACKAGE_PHONE_VERIFICATION_REQUIRED', true), FILTER_VALIDATE_BOOLEAN),
+        'email_required' => filter_var(env('AUTH_KIT_EMAIL_VERIFICATION_REQUIRED', true), FILTER_VALIDATE_BOOLEAN),
+        'phone_required' => filter_var(env('AUTH_KIT_PHONE_VERIFICATION_REQUIRED', true), FILTER_VALIDATE_BOOLEAN),
     ],
 
     /*

@@ -3,16 +3,16 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Facades\Route;
-use AhmedAshraf\Auth\Http\Controllers\Api\LoginController;
-use AhmedAshraf\Auth\Http\Controllers\Api\OtpController;
-use AhmedAshraf\Auth\Http\Controllers\Api\PasswordResetController;
-use AhmedAshraf\Auth\Http\Controllers\Api\ProfileController;
-use AhmedAshraf\Auth\Http\Controllers\Api\RegisterController;
-use AhmedAshraf\Auth\Http\Controllers\Api\VerificationController;
-use AhmedAshraf\Auth\Http\Middleware\EnsureUserIsActive;
-use AhmedAshraf\Auth\Http\Middleware\EnsureVerified;
+use Ashtech\LaravelAuthKit\Http\Controllers\Api\LoginController;
+use Ashtech\LaravelAuthKit\Http\Controllers\Api\OtpController;
+use Ashtech\LaravelAuthKit\Http\Controllers\Api\PasswordResetController;
+use Ashtech\LaravelAuthKit\Http\Controllers\Api\ProfileController;
+use Ashtech\LaravelAuthKit\Http\Controllers\Api\RegisterController;
+use Ashtech\LaravelAuthKit\Http\Controllers\Api\VerificationController;
+use Ashtech\LaravelAuthKit\Http\Middleware\EnsureUserIsActive;
+use Ashtech\LaravelAuthKit\Http\Middleware\EnsureVerified;
 
-$version = config('auth-package.api.version', 'v1');
+$version = config('laravel-auth-kit.api.version', 'v1');
 
 Route::prefix($version)->group(function () {
     Route::prefix('auth')->group(function () {

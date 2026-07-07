@@ -5,7 +5,7 @@
          colors="true"
          cacheDirectory=".phpunit.cache">
     <testsuites>
-        <testsuite name="Ahmed Ashraf Auth Test Suite">
+        <testsuite name="Ashtech Laravel Auth Kit Test Suite">
             <directory suffix="Test.php">tests</directory>
         </testsuite>
     </testsuites>

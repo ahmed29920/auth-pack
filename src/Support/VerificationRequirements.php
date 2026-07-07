@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace AhmedAshraf\Auth\Support;
+namespace Ashtech\LaravelAuthKit\Support;
 
-use AhmedAshraf\Auth\Models\User;
+use Ashtech\LaravelAuthKit\Models\User;
 
 final class VerificationRequirements
 {
     public static function emailRequired(): bool
     {
-        return (bool) config('auth-package.verification.email_required', false);
+        return (bool) config('laravel-auth-kit.verification.email_required', false);
     }
 
     public static function phoneRequired(): bool
     {
-        return (bool) config('auth-package.verification.phone_required', false);
+        return (bool) config('laravel-auth-kit.verification.phone_required', false);
     }
 
     public static function userNeedsEmailVerification(User $user): bool

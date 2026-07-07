@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AhmedAshraf\Auth;
+namespace Ashtech\LaravelAuthKit;
 
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Cache\RateLimiting\Limit;
@@ -10,32 +10,32 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use AhmedAshraf\Auth\Contracts\OtpRepositoryInterface;
-use AhmedAshraf\Auth\Contracts\SmsSenderInterface;
-use AhmedAshraf\Auth\Contracts\RoleManagerInterface;
-use AhmedAshraf\Auth\Contracts\UserRepositoryInterface;
-use AhmedAshraf\Auth\Exceptions\AccountInactiveException;
-use AhmedAshraf\Auth\Exceptions\AuthenticationException;
-use AhmedAshraf\Auth\Exceptions\InvalidOtpException;
-use AhmedAshraf\Auth\Exceptions\TooManyOtpAttemptsException;
-use AhmedAshraf\Auth\Mail\ResetPasswordMail;
-use AhmedAshraf\Auth\Services\Sms\LogSmsSender;
-use AhmedAshraf\Auth\Models\Otp;
-use AhmedAshraf\Auth\Models\User;
-use AhmedAshraf\Auth\Repositories\OtpRepository;
-use AhmedAshraf\Auth\Repositories\UserRepository;
-use AhmedAshraf\Auth\Services\Role\EnumRoleManager;
-use AhmedAshraf\Auth\Services\Role\SpatieRoleManager;
-use AhmedAshraf\Auth\Support\ApiResponse;
+use Ashtech\LaravelAuthKit\Contracts\OtpRepositoryInterface;
+use Ashtech\LaravelAuthKit\Contracts\SmsSenderInterface;
+use Ashtech\LaravelAuthKit\Contracts\RoleManagerInterface;
+use Ashtech\LaravelAuthKit\Contracts\UserRepositoryInterface;
+use Ashtech\LaravelAuthKit\Exceptions\AccountInactiveException;
+use Ashtech\LaravelAuthKit\Exceptions\AuthenticationException;
+use Ashtech\LaravelAuthKit\Exceptions\InvalidOtpException;
+use Ashtech\LaravelAuthKit\Exceptions\TooManyOtpAttemptsException;
+use Ashtech\LaravelAuthKit\Mail\ResetPasswordMail;
+use Ashtech\LaravelAuthKit\Services\Sms\LogSmsSender;
+use Ashtech\LaravelAuthKit\Models\Otp;
+use Ashtech\LaravelAuthKit\Models\User;
+use Ashtech\LaravelAuthKit\Repositories\OtpRepository;
+use Ashtech\LaravelAuthKit\Repositories\UserRepository;
+use Ashtech\LaravelAuthKit\Services\Role\EnumRoleManager;
+use Ashtech\LaravelAuthKit\Services\Role\SpatieRoleManager;
+use Ashtech\LaravelAuthKit\Support\ApiResponse;
 
 class AuthServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/auth-package.php', 'auth-package');
+        $this->mergeConfigFrom(__DIR__.'/../config/laravel-auth-kit.php', 'laravel-auth-kit');
 
         $this->app->bind(UserRepositoryInterface::class, function ($app) {
-            $model = $app->make(config('auth-package.user_model'));
+            $model = $app->make(config('laravel-auth-kit.user_model'));
 
             return new UserRepository($model);
         });
@@ -46,7 +46,7 @@ class AuthServiceProvider extends ServiceProvider
 
         $this->app->singleton(EnumRoleManager::class);
         $this->app->singleton(RoleManagerInterface::class, function ($app) {
-            if (config('auth-package.role_driver') === 'spatie') {
+            if (config('laravel-auth-kit.role_driver') === 'spatie') {
                 return new SpatieRoleManager($app->make(EnumRoleManager::class));
             }
 
@@ -54,7 +54,7 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         $this->app->bind(SmsSenderInterface::class, function ($app) {
-            $class = config('auth-package.sms.sender', LogSmsSender::class);
+            $class = config('laravel-auth-kit.sms.sender', LogSmsSender::class);
 
             return $app->make($class);
         });
@@ -63,17 +63,17 @@ class AuthServiceProvider extends ServiceProvider
     public function boot(): void
     {
         config([
-            'translatable.locales' => config('auth-package.translatable_locales', ['en', 'ar']),
-            'translatable.fallback_locale' => config('auth-package.fallback_locale', 'en'),
+            'translatable.locales' => config('laravel-auth-kit.translatable_locales', ['en', 'ar']),
+            'translatable.fallback_locale' => config('laravel-auth-kit.fallback_locale', 'en'),
         ]);
 
         $this->publishes([
-            __DIR__.'/../resources/views' => resource_path('views/vendor/kango-auth'),
-        ], 'kango-auth-views');
+            __DIR__.'/../resources/views' => resource_path('views/vendor/laravel-auth-kit'),
+        ], 'laravel-auth-kit-views');
 
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'kango-auth');
-        $this->loadTranslationsFrom(__DIR__.'/../lang', 'kango-auth');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'laravel-auth-kit');
+        $this->loadTranslationsFrom(__DIR__.'/../lang', 'laravel-auth-kit');
 
         $this->registerRoutes();
         $this->registerPublishing();
@@ -84,7 +84,7 @@ class AuthServiceProvider extends ServiceProvider
 
     protected function registerPasswordResetNotifications(): void
     {
-        $prefix = trim(config('auth-package.web.prefix', 'auth'), '/');
+        $prefix = trim(config('laravel-auth-kit.web.prefix', 'auth'), '/');
 
         ResetPassword::createUrlUsing(function ($user, string $token) use ($prefix) {
             return url("/{$prefix}/password/reset/{$token}?email=".urlencode($user->getEmailForPasswordReset()));
@@ -100,8 +100,8 @@ class AuthServiceProvider extends ServiceProvider
 
     protected function registerRateLimiters(): void
     {
-        $decaySeconds = (int) config('auth-package.otp.throttle_seconds', 60);
-        $maxAttempts = (int) config('auth-package.otp.throttle_max_attempts', 1);
+        $decaySeconds = (int) config('laravel-auth-kit.otp.throttle_seconds', 60);
+        $maxAttempts = (int) config('laravel-auth-kit.otp.throttle_max_attempts', 1);
 
         RateLimiter::for('auth-otp', function (Request $request) use ($decaySeconds, $maxAttempts) {
             $identifier = $request->input('phone')
@@ -114,7 +114,7 @@ class AuthServiceProvider extends ServiceProvider
                 ->by('auth-otp-route:'.$identifier)
                 ->response(function (Request $request, array $headers) {
                     $seconds = (int) ($headers['Retry-After'] ?? $decaySeconds);
-                    $message = __('kango-auth::auth.otp.throttled', ['seconds' => $seconds]);
+                    $message = __('laravel-auth-kit::auth.otp.throttled', ['seconds' => $seconds]);
 
                     if ($request->expectsJson() || $request->is('api/*')) {
                         return response()->json([
@@ -131,16 +131,16 @@ class AuthServiceProvider extends ServiceProvider
 
     protected function registerRoutes(): void
     {
-        if (config('auth-package.clients.api')) {
-            $apiPrefix = trim(config('auth-package.api.prefix', 'api'), '/');
-            $apiMiddleware = config('auth-package.api.middleware', ['api']);
+        if (config('laravel-auth-kit.clients.api')) {
+            $apiPrefix = trim(config('laravel-auth-kit.api.prefix', 'api'), '/');
+            $apiMiddleware = config('laravel-auth-kit.api.middleware', ['api']);
 
             Route::middleware($apiMiddleware)
                 ->prefix($apiPrefix)
                 ->group(__DIR__.'/../routes/api.php');
         }
 
-        if (config('auth-package.clients.web')) {
+        if (config('laravel-auth-kit.clients.web')) {
             Route::group([], __DIR__.'/../routes/web.php');
         }
     }
@@ -152,16 +152,16 @@ class AuthServiceProvider extends ServiceProvider
         }
 
         $this->publishes([
-            __DIR__.'/../config/auth-package.php' => config_path('auth-package.php'),
-        ], 'kango-auth-config');
+            __DIR__.'/../config/laravel-auth-kit.php' => config_path('laravel-auth-kit.php'),
+        ], 'laravel-auth-kit-config');
 
         $this->publishes([
             __DIR__.'/../database/migrations' => database_path('migrations'),
-        ], 'kango-auth-migrations');
+        ], 'laravel-auth-kit-migrations');
 
         $this->publishes([
-            __DIR__.'/../resources/views' => resource_path('views/vendor/kango-auth'),
-        ], 'kango-auth-views');
+            __DIR__.'/../resources/views' => resource_path('views/vendor/laravel-auth-kit'),
+        ], 'laravel-auth-kit-views');
     }
 
     protected function registerExceptionRendering(): void

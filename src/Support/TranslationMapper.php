@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AhmedAshraf\Auth\Support;
+namespace Ashtech\LaravelAuthKit\Support;
 
 final class TranslationMapper
 {
@@ -11,7 +11,7 @@ final class TranslationMapper
      */
     public static function locales(): array
     {
-        return array_values((array) config('auth-package.translatable_locales', ['en', 'ar']));
+        return array_values((array) config('laravel-auth-kit.translatable_locales', ['en', 'ar']));
     }
 
     /**
@@ -89,7 +89,7 @@ final class TranslationMapper
 
         $translations = $model->getTranslations($attribute);
         $locale = app()->getLocale();
-        $fallback = (string) config('auth-package.fallback_locale', 'en');
+        $fallback = (string) config('laravel-auth-kit.fallback_locale', 'en');
 
         return [
             $attribute => $translations[$locale] ?? $translations[$fallback] ?? reset($translations) ?: null,

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AhmedAshraf\Auth\Http\Requests\Api;
+namespace Ashtech\LaravelAuthKit\Http\Requests\Api;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -19,15 +19,15 @@ class RegisterRequest extends FormRequest
         $rules = [
             'name' => ['required', 'string', 'max:255'],
             'password' => ['nullable', 'string', 'min:8', 'confirmed'],
-            'role' => ['sometimes', Rule::in(config('auth-package.registration_allowed_roles', ['customer']))],
+            'role' => ['sometimes', Rule::in(config('laravel-auth-kit.registration_allowed_roles', ['customer']))],
             'vendor_id' => ['nullable', 'integer'],
         ];
 
-        if (config('auth-package.methods.email_password') || config('auth-package.methods.email_otp')) {
+        if (config('laravel-auth-kit.methods.email_password') || config('laravel-auth-kit.methods.email_otp')) {
             $rules['email'] = ['required_without:phone', 'nullable', 'email', 'max:255', 'unique:users,email'];
         }
 
-        if (config('auth-package.methods.phone_password') || config('auth-package.methods.phone_otp')) {
+        if (config('laravel-auth-kit.methods.phone_password') || config('laravel-auth-kit.methods.phone_otp')) {
             $rules['phone'] = ['required_without:email', 'nullable', 'string', 'max:30', 'unique:users,phone'];
         }
 

@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace AhmedAshraf\Auth\Models;
+namespace Ashtech\LaravelAuthKit\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use AhmedAshraf\Auth\Enums\UserRole;
-use AhmedAshraf\Auth\Support\VerificationRequirements;
-use AhmedAshraf\Auth\Traits\ManagesAuthRoles;
+use Ashtech\LaravelAuthKit\Enums\UserRole;
+use Ashtech\LaravelAuthKit\Support\VerificationRequirements;
+use Ashtech\LaravelAuthKit\Traits\ManagesAuthRoles;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable

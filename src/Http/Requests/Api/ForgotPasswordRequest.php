@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace AhmedAshraf\Auth\Http\Requests\Api;
+namespace Ashtech\LaravelAuthKit\Http\Requests\Api;
 
 use Illuminate\Foundation\Http\FormRequest;
-use AhmedAshraf\Auth\Support\AuthMethods;
+use Ashtech\LaravelAuthKit\Support\AuthMethods;
 
 class ForgotPasswordRequest extends FormRequest
 {

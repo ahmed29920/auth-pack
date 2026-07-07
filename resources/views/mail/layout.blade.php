@@ -27,7 +27,7 @@
                     <tr>
                         <td style="padding:20px 32px;background-color:#f8fafc;border-top:1px solid #e2e8f0;">
                             <p style="margin:0;font-size:12px;line-height:1.6;color:#64748b;text-align:center;">
-                                &copy; {{ date('Y') }} {{ config('app.name') }}. {{ __('kango-auth::auth.mail.footer') }}
+                                &copy; {{ date('Y') }} {{ config('app.name') }}. {{ __('laravel-auth-kit::auth.mail.footer') }}
                             </p>
                         </td>
                     </tr>

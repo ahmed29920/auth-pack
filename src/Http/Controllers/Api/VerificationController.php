@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace AhmedAshraf\Auth\Http\Controllers\Api;
+namespace Ashtech\LaravelAuthKit\Http\Controllers\Api;
 
 use Illuminate\Routing\Controller;
-use AhmedAshraf\Auth\Http\Requests\Api\VerifyContactRequest;
-use AhmedAshraf\Auth\Http\Resources\UserResource;
-use AhmedAshraf\Auth\Services\VerificationService;
-use AhmedAshraf\Auth\Support\ApiResponse;
+use Ashtech\LaravelAuthKit\Http\Requests\Api\VerifyContactRequest;
+use Ashtech\LaravelAuthKit\Http\Resources\UserResource;
+use Ashtech\LaravelAuthKit\Services\VerificationService;
+use Ashtech\LaravelAuthKit\Support\ApiResponse;
 
 class VerificationController extends Controller
 {

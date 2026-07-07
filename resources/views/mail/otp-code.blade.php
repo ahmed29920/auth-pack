@@ -1,14 +1,14 @@
-@extends('kango-auth::mail.layout')
+@extends('laravel-auth-kit::mail.layout')
 
 @section('content')
     @if ($recipientName)
         <p style="margin:0 0 16px;font-size:16px;line-height:1.6;color:#334155;">
-            {{ __('kango-auth::auth.mail.greeting', ['name' => $recipientName]) }}
+            {{ __('laravel-auth-kit::auth.mail.greeting', ['name' => $recipientName]) }}
         </p>
     @endif
 
     <p style="margin:0 0 8px;font-size:15px;line-height:1.6;color:#475569;">
-        {{ __('kango-auth::auth.mail.otp_intro', ['purpose' => $purposeLabel]) }}
+        {{ __('laravel-auth-kit::auth.mail.otp_intro', ['purpose' => $purposeLabel]) }}
     </p>
 
     <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin:24px 0;">
@@ -20,10 +20,10 @@
     </table>
 
     <p style="margin:0 0 8px;font-size:14px;line-height:1.6;color:#64748b;">
-        {{ __('kango-auth::auth.mail.otp_expires', ['time' => $expiresAt->timezone(config('app.timezone'))->format('M j, Y g:i A')]) }}
+        {{ __('laravel-auth-kit::auth.mail.otp_expires', ['time' => $expiresAt->timezone(config('app.timezone'))->format('M j, Y g:i A')]) }}
     </p>
 
     <p style="margin:16px 0 0;font-size:13px;line-height:1.6;color:#94a3b8;">
-        {{ __('kango-auth::auth.mail.otp_security_note') }}
+        {{ __('laravel-auth-kit::auth.mail.otp_security_note') }}
     </p>
 @endsection

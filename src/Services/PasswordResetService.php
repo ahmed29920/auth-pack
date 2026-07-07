@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace AhmedAshraf\Auth\Services;
+namespace Ashtech\LaravelAuthKit\Services;
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
-use AhmedAshraf\Auth\Contracts\UserRepositoryInterface;
-use AhmedAshraf\Auth\Enums\OtpChannel;
-use AhmedAshraf\Auth\Enums\OtpPurpose;
-use AhmedAshraf\Auth\Exceptions\AuthenticationException;
-use AhmedAshraf\Auth\Models\User;
+use Ashtech\LaravelAuthKit\Contracts\UserRepositoryInterface;
+use Ashtech\LaravelAuthKit\Enums\OtpChannel;
+use Ashtech\LaravelAuthKit\Enums\OtpPurpose;
+use Ashtech\LaravelAuthKit\Exceptions\AuthenticationException;
+use Ashtech\LaravelAuthKit\Models\User;
 
 class PasswordResetService
 {

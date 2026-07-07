@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AhmedAshraf\Auth\Concerns;
+namespace Ashtech\LaravelAuthKit\Concerns;
 
 use Spatie\Translatable\HasTranslations;
 
@@ -17,6 +17,6 @@ trait HasAuthTranslations
 
     public function getFallbackLocale(): string
     {
-        return (string) config('auth-package.fallback_locale', config('app.fallback_locale', 'en'));
+        return (string) config('laravel-auth-kit.fallback_locale', config('app.fallback_locale', 'en'));
     }
 }

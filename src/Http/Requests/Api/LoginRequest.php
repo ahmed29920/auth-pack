@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AhmedAshraf\Auth\Http\Requests\Api;
+namespace Ashtech\LaravelAuthKit\Http\Requests\Api;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -17,14 +17,14 @@ class LoginRequest extends FormRequest
     {
         if ($this->isOtpLogin()) {
             $rules = [
-                'otp_code' => ['required', 'string', 'size:'.config('auth-package.otp.length', 6)],
+                'otp_code' => ['required', 'string', 'size:'.config('laravel-auth-kit.otp.length', 6)],
             ];
 
-            if (config('auth-package.methods.phone_otp')) {
+            if (config('laravel-auth-kit.methods.phone_otp')) {
                 $rules['phone'] = ['required_without:email', 'nullable', 'string'];
             }
 
-            if (config('auth-package.methods.email_otp')) {
+            if (config('laravel-auth-kit.methods.email_otp')) {
                 $rules['email'] = ['required_without:phone', 'nullable', 'email'];
             }
 
@@ -35,11 +35,11 @@ class LoginRequest extends FormRequest
             'password' => ['required', 'string'],
         ];
 
-        if (config('auth-package.methods.email_password')) {
+        if (config('laravel-auth-kit.methods.email_password')) {
             $rules['email'] = ['required_without:phone', 'nullable', 'email'];
         }
 
-        if (config('auth-package.methods.phone_password')) {
+        if (config('laravel-auth-kit.methods.phone_password')) {
             $rules['phone'] = ['required_without:email', 'nullable', 'string'];
         }
 
@@ -56,8 +56,8 @@ class LoginRequest extends FormRequest
             return true;
         }
 
-        return ! config('auth-package.methods.email_password')
-            && ! config('auth-package.methods.phone_password')
-            && (config('auth-package.methods.email_otp') || config('auth-package.methods.phone_otp'));
+        return ! config('laravel-auth-kit.methods.email_password')
+            && ! config('laravel-auth-kit.methods.phone_password')
+            && (config('laravel-auth-kit.methods.email_otp') || config('laravel-auth-kit.methods.phone_otp'));
     }
 }

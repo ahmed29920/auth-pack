@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace AhmedAshraf\Auth\Http\Middleware;
+namespace Ashtech\LaravelAuthKit\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use AhmedAshraf\Auth\Support\ApiResponse;
+use Ashtech\LaravelAuthKit\Support\ApiResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 class EnsureUserIsActive
@@ -18,7 +18,7 @@ class EnsureUserIsActive
 
         if ($user && ! $user->is_active) {
             if ($request->expectsJson() || $request->is('api/*')) {
-                return ApiResponse::error(__('kango-auth::auth.account.inactive'), 403);
+                return ApiResponse::error(__('laravel-auth-kit::auth.account.inactive'), 403);
             }
 
             Auth::guard('web')->logout();
@@ -26,8 +26,8 @@ class EnsureUserIsActive
             $request->session()->regenerateToken();
 
             return redirect()
-                ->route('kango.auth.login')
-                ->withErrors(['account' => __('kango-auth::auth.account.inactive')]);
+                ->route('auth-kit.login')
+                ->withErrors(['account' => __('laravel-auth-kit::auth.account.inactive')]);
         }
 
         return $next($request);

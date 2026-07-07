@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AhmedAshraf\Auth\Support;
+namespace Ashtech\LaravelAuthKit\Support;
 
 use Illuminate\Http\JsonResponse;
 

@@ -1,27 +1,30 @@
 {
-    "name": "ahmed-ashraf/auth",
-    "description": "Multi-vendor authentication package with roles, OTP, email/phone verification (Blade + API). Spatie Permission compatible.",
+    "name": "ashtech/laravel-auth-kit",
+    "description": "Starter-ready Laravel authentication kit — Blade UI, Sanctum API, OTP, multi-vendor roles, and email/phone verification.",
     "type": "library",
     "license": "MIT",
     "keywords": [
         "laravel",
         "auth",
         "authentication",
+        "auth-kit",
+        "starter-kit",
         "otp",
         "multi-vendor",
         "sanctum",
-        "roles"
+        "roles",
+        "ashtech"
     ],
     "authors": [
         {
-            "name": "Ahmed Ashraf",
+            "name": "Ashtech",
             "email": "ahmedashraf4063@gmail.com"
         }
     ],
-    "homepage": "https://github.com/ahmed29920/laravel-auth",
+    "homepage": "https://github.com/ashtech/laravel-auth-kit",
     "support": {
-        "issues": "https://github.com/ahmed29920/laravel-auth/issues",
-        "source": "https://github.com/ahmed29920/laravel-auth"
+        "issues": "https://github.com/ashtech/laravel-auth-kit/issues",
+        "source": "https://github.com/ashtech/laravel-auth-kit"
     },
     "require": {
         "php": "^8.3",
@@ -43,18 +46,18 @@
     },
     "autoload": {
         "psr-4": {
-            "AhmedAshraf\\Auth\\": "src/"
+            "Ashtech\\LaravelAuthKit\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "AhmedAshraf\\Auth\\Tests\\": "tests/"
+            "Ashtech\\LaravelAuthKit\\Tests\\": "tests/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "AhmedAshraf\\Auth\\AuthServiceProvider"
+                "Ashtech\\LaravelAuthKit\\AuthServiceProvider"
             ]
         }
     },

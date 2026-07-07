@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace AhmedAshraf\Auth\Services;
+namespace Ashtech\LaravelAuthKit\Services;
 
-use AhmedAshraf\Auth\Contracts\UserRepositoryInterface;
-use AhmedAshraf\Auth\Enums\OtpChannel;
-use AhmedAshraf\Auth\Enums\OtpPurpose;
-use AhmedAshraf\Auth\Models\User;
+use Ashtech\LaravelAuthKit\Contracts\UserRepositoryInterface;
+use Ashtech\LaravelAuthKit\Enums\OtpChannel;
+use Ashtech\LaravelAuthKit\Enums\OtpPurpose;
+use Ashtech\LaravelAuthKit\Models\User;
 
 class VerificationService
 {

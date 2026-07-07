@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace AhmedAshraf\Auth\Support;
+namespace Ashtech\LaravelAuthKit\Support;
 
 final class AuthMethods
 {
     public static function all(): array
     {
-        return config('auth-package.methods', []);
+        return config('laravel-auth-kit.methods', []);
     }
 
     public static function enabled(string $method): bool

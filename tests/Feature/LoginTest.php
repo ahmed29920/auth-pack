@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace AhmedAshraf\Auth\Tests\Feature;
+namespace Ashtech\LaravelAuthKit\Tests\Feature;
 
-use AhmedAshraf\Auth\Models\User;
-use AhmedAshraf\Auth\Tests\TestCase;
+use Ashtech\LaravelAuthKit\Models\User;
+use Ashtech\LaravelAuthKit\Tests\TestCase;
 use Illuminate\Support\Facades\Hash;
 
 class LoginTest extends TestCase
@@ -67,6 +67,6 @@ class LoginTest extends TestCase
 
         $response->assertForbidden()
             ->assertJsonPath('success', false)
-            ->assertJsonPath('message', __('kango-auth::auth.account.inactive'));
+            ->assertJsonPath('message', __('laravel-auth-kit::auth.account.inactive'));
     }
 }

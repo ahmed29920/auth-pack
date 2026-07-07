@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace AhmedAshraf\Auth\Http\Middleware;
+namespace Ashtech\LaravelAuthKit\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use AhmedAshraf\Auth\Exceptions\VerificationRequiredException;
-use AhmedAshraf\Auth\Support\ApiResponse;
+use Ashtech\LaravelAuthKit\Exceptions\VerificationRequiredException;
+use Ashtech\LaravelAuthKit\Support\ApiResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 class EnsureVerified
@@ -16,13 +16,13 @@ class EnsureVerified
      * @var list<string>
      */
     protected array $exceptRouteNames = [
-        'kango.auth.verify',
-        'kango.auth.verify.email',
-        'kango.auth.verify.phone',
-        'kango.auth.verify.email.resend',
-        'kango.auth.verify.phone.resend',
-        'kango.auth.logout',
-        'kango.auth.locale',
+        'auth-kit.verify',
+        'auth-kit.verify.email',
+        'auth-kit.verify.phone',
+        'auth-kit.verify.email.resend',
+        'auth-kit.verify.phone.resend',
+        'auth-kit.logout',
+        'auth-kit.locale',
     ];
 
     public function handle(Request $request, Closure $next): Response
@@ -47,6 +47,6 @@ class EnsureVerified
             );
         }
 
-        return redirect()->route('kango.auth.verify');
+        return redirect()->route('auth-kit.verify');
     }
 }

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace AhmedAshraf\Auth\Models;
+namespace Ashtech\LaravelAuthKit\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use AhmedAshraf\Auth\Enums\OtpChannel;
-use AhmedAshraf\Auth\Enums\OtpPurpose;
+use Ashtech\LaravelAuthKit\Enums\OtpChannel;
+use Ashtech\LaravelAuthKit\Enums\OtpPurpose;
 
 class Otp extends Model
 {
@@ -34,7 +34,7 @@ class Otp extends Model
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(config('auth-package.user_model'));
+        return $this->belongsTo(config('laravel-auth-kit.user_model'));
     }
 
     public function isExpired(): bool

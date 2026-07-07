@@ -1,14 +1,14 @@
-@extends('kango-auth::layouts.guest')
+@extends('laravel-auth-kit::layouts.guest')
 
 @php
-    use AhmedAshraf\Auth\Support\AuthMethods;
+    use Ashtech\LaravelAuthKit\Support\AuthMethods;
 
     $showTabs = AuthMethods::showLoginModeTabs();
     $defaultMode = old('login_mode', $showTabs ? 'password' : (AuthMethods::allowsOtpLogin() ? 'otp' : 'password'));
-    $otpLength = config('auth-package.otp.length', 6);
+    $otpLength = config('laravel-auth-kit.otp.length', 6);
 @endphp
 
-@section('title', __('kango-auth::auth.login.title').' — '.config('app.name'))
+@section('title', __('laravel-auth-kit::auth.login.title').' — '.config('app.name'))
 
 @push('styles')
     <style>
@@ -31,27 +31,27 @@
 @endpush
 
 @section('content')
-    <x-kango-auth::card>
-        <x-kango-auth::auth-header
-            :title="__('kango-auth::auth.login.title')"
-            :subtitle="__('kango-auth::auth.login.subtitle')"
+    <x-laravel-auth-kit::card>
+        <x-laravel-auth-kit::auth-header
+            :title="__('laravel-auth-kit::auth.login.title')"
+            :subtitle="__('laravel-auth-kit::auth.login.subtitle')"
         />
 
         @if (session('status'))
-            <x-kango-auth::alert type="success">{{ session('status') }}</x-kango-auth::alert>
+            <x-laravel-auth-kit::alert type="success">{{ session('status') }}</x-laravel-auth-kit::alert>
         @endif
 
         @if ($errors->any())
-            <x-kango-auth::alert>
+            <x-laravel-auth-kit::alert>
                 <ul class="list-inside list-disc space-y-1">
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
                     @endforeach
                 </ul>
-            </x-kango-auth::alert>
+            </x-laravel-auth-kit::alert>
         @endif
 
-        <form method="POST" action="{{ route('kango.auth.login') }}">
+        <form method="POST" action="{{ route('auth-kit.login') }}">
             @csrf
 
             @if ($showTabs)
@@ -60,10 +60,10 @@
 
                 <div class="login-tabs mb-5 flex rounded-xl bg-slate-100 p-1 dark:bg-slate-800">
                     <label for="login-mode-password" class="flex-1 cursor-pointer rounded-lg px-3 py-2 text-center text-sm font-medium text-slate-600 transition dark:text-slate-300">
-                        {{ __('kango-auth::auth.login.with_password') }}
+                        {{ __('laravel-auth-kit::auth.login.with_password') }}
                     </label>
                     <label for="login-mode-otp" class="flex-1 cursor-pointer rounded-lg px-3 py-2 text-center text-sm font-medium text-slate-600 transition dark:text-slate-300">
-                        {{ __('kango-auth::auth.login.with_otp') }}
+                        {{ __('laravel-auth-kit::auth.login.with_otp') }}
                     </label>
                 </div>
             @else
@@ -75,39 +75,39 @@
                 @if (AuthMethods::allowsPasswordLogin())
                     <div id="panel-password" class="login-panel">
                         @if (AuthMethods::emailForPassword())
-                            <x-kango-auth::input
-                                :label="__('kango-auth::auth.fields.email')"
+                            <x-laravel-auth-kit::input
+                                :label="__('laravel-auth-kit::auth.fields.email')"
                                 name="email"
                                 type="email"
-                                :placeholder="__('kango-auth::auth.placeholders.email')"
+                                :placeholder="__('laravel-auth-kit::auth.placeholders.email')"
                                 :required="! AuthMethods::phoneForPassword()"
                             />
                         @endif
 
                         @if (AuthMethods::phoneForPassword())
-                            <x-kango-auth::input
-                                :label="__('kango-auth::auth.fields.phone')"
+                            <x-laravel-auth-kit::input
+                                :label="__('laravel-auth-kit::auth.fields.phone')"
                                 name="phone"
                                 type="tel"
-                                :placeholder="__('kango-auth::auth.placeholders.phone')"
+                                :placeholder="__('laravel-auth-kit::auth.placeholders.phone')"
                                 :required="! AuthMethods::emailForPassword()"
                             />
                         @endif
 
-                        <x-kango-auth::input
-                            :label="__('kango-auth::auth.fields.password')"
+                        <x-laravel-auth-kit::input
+                            :label="__('laravel-auth-kit::auth.fields.password')"
                             name="password"
                             type="password"
-                            :placeholder="__('kango-auth::auth.placeholders.password')"
+                            :placeholder="__('laravel-auth-kit::auth.placeholders.password')"
                         />
 
                         <div class="mb-4 flex items-center justify-between text-sm">
                             <label class="flex items-center gap-2 text-slate-600 dark:text-slate-400">
                                 <input type="checkbox" name="remember" class="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500/20">
-                                {{ __('kango-auth::auth.login.remember') }}
+                                {{ __('laravel-auth-kit::auth.login.remember') }}
                             </label>
-                            <a href="{{ route('kango.auth.password.forgot') }}" class="font-medium text-indigo-600 hover:text-indigo-700 dark:text-indigo-400">
-                                {{ __('kango-auth::auth.login.forgot') }}
+                            <a href="{{ route('auth-kit.password.forgot') }}" class="font-medium text-indigo-600 hover:text-indigo-700 dark:text-indigo-400">
+                                {{ __('laravel-auth-kit::auth.login.forgot') }}
                             </a>
                         </div>
                     </div>
@@ -117,30 +117,30 @@
                 @if (AuthMethods::allowsOtpLogin())
                     <div id="panel-otp" class="login-panel">
                         @if (AuthMethods::emailForOtp())
-                            <x-kango-auth::input
-                                :label="__('kango-auth::auth.fields.email')"
+                            <x-laravel-auth-kit::input
+                                :label="__('laravel-auth-kit::auth.fields.email')"
                                 name="email"
                                 type="email"
-                                :placeholder="__('kango-auth::auth.placeholders.email')"
+                                :placeholder="__('laravel-auth-kit::auth.placeholders.email')"
                                 :required="! AuthMethods::phoneForOtp()"
                             />
                         @endif
 
                         @if (AuthMethods::phoneForOtp())
-                            <x-kango-auth::input
-                                :label="__('kango-auth::auth.fields.phone')"
+                            <x-laravel-auth-kit::input
+                                :label="__('laravel-auth-kit::auth.fields.phone')"
                                 name="phone"
                                 type="tel"
-                                :placeholder="__('kango-auth::auth.placeholders.phone')"
+                                :placeholder="__('laravel-auth-kit::auth.placeholders.phone')"
                                 :required="! AuthMethods::emailForOtp()"
                             />
                         @endif
 
-                        <x-kango-auth::input
-                            :label="__('kango-auth::auth.fields.otp_code')"
+                        <x-laravel-auth-kit::input
+                            :label="__('laravel-auth-kit::auth.fields.otp_code')"
                             name="otp_code"
                             type="text"
-                            :placeholder="__('kango-auth::auth.placeholders.otp')"
+                            :placeholder="__('laravel-auth-kit::auth.placeholders.otp')"
                             inputmode="numeric"
                             autocomplete="one-time-code"
                             :required="true"
@@ -148,28 +148,28 @@
                         />
 
                         <p class="mb-4 text-xs text-slate-500 dark:text-slate-400">
-                            {{ __('kango-auth::auth.login.otp_hint') }}
+                            {{ __('laravel-auth-kit::auth.login.otp_hint') }}
                         </p>
                     </div>
                 @endif
             </div>
 
-            <x-kango-auth::button>{{ __('kango-auth::auth.login.submit') }}</x-kango-auth::button>
+            <x-laravel-auth-kit::button>{{ __('laravel-auth-kit::auth.login.submit') }}</x-laravel-auth-kit::button>
         </form>
 
         <p class="mt-6 text-center text-sm text-slate-500 dark:text-slate-400">
-            {{ __('kango-auth::auth.login.no_account') }}
-            <a href="{{ route('kango.auth.register') }}" class="font-semibold text-indigo-600 hover:text-indigo-700 dark:text-indigo-400">
-                {{ __('kango-auth::auth.login.register') }}
+            {{ __('laravel-auth-kit::auth.login.no_account') }}
+            <a href="{{ route('auth-kit.register') }}" class="font-semibold text-indigo-600 hover:text-indigo-700 dark:text-indigo-400">
+                {{ __('laravel-auth-kit::auth.login.register') }}
             </a>
         </p>
-    </x-kango-auth::card>
+    </x-laravel-auth-kit::card>
 @endsection
 
 @if ($showTabs)
     @push('scripts')
         <script>
-            document.querySelector('form[action="{{ route('kango.auth.login') }}"]')?.addEventListener('submit', function () {
+            document.querySelector('form[action="{{ route('auth-kit.login') }}"]')?.addEventListener('submit', function () {
                 const mode = document.querySelector('input[name="login_mode"]:checked')?.value ?? 'password';
                 const activeId = mode === 'otp' ? 'panel-otp' : 'panel-password';
 

@@ -18,7 +18,7 @@
     </div>
 
     <div class="fixed top-4 z-20 {{ app()->getLocale() === 'ar' ? 'left-4' : 'right-4' }}">
-        <x-kango-auth::language-switcher />
+        <x-laravel-auth-kit::language-switcher />
     </div>
 
     <div class="relative flex min-h-screen items-center justify-center p-4 pt-16 sm:p-6 sm:pt-20">

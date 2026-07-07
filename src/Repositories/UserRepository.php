@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace AhmedAshraf\Auth\Repositories;
+namespace Ashtech\LaravelAuthKit\Repositories;
 
 use Illuminate\Database\Eloquent\Model;
-use AhmedAshraf\Auth\Contracts\UserRepositoryInterface;
-use AhmedAshraf\Auth\Models\User;
+use Ashtech\LaravelAuthKit\Contracts\UserRepositoryInterface;
+use Ashtech\LaravelAuthKit\Models\User;
 
 class UserRepository implements UserRepositoryInterface
 {

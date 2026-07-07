@@ -2,22 +2,22 @@
 
 declare(strict_types=1);
 
-namespace AhmedAshraf\Auth\Services;
+namespace Ashtech\LaravelAuthKit\Services;
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\RateLimiter;
-use AhmedAshraf\Auth\Contracts\OtpRepositoryInterface;
-use AhmedAshraf\Auth\Contracts\SmsSenderInterface;
-use AhmedAshraf\Auth\Enums\OtpChannel;
-use AhmedAshraf\Auth\Enums\OtpPurpose;
-use AhmedAshraf\Auth\Exceptions\InvalidOtpException;
-use AhmedAshraf\Auth\Exceptions\TooManyOtpAttemptsException;
-use AhmedAshraf\Auth\Mail\OtpCodeMail;
-use AhmedAshraf\Auth\Models\Otp;
-use AhmedAshraf\Auth\Models\User;
-use AhmedAshraf\Auth\Notifications\OtpNotification;
-use AhmedAshraf\Auth\Support\OtpSendValidator;
+use Ashtech\LaravelAuthKit\Contracts\OtpRepositoryInterface;
+use Ashtech\LaravelAuthKit\Contracts\SmsSenderInterface;
+use Ashtech\LaravelAuthKit\Enums\OtpChannel;
+use Ashtech\LaravelAuthKit\Enums\OtpPurpose;
+use Ashtech\LaravelAuthKit\Exceptions\InvalidOtpException;
+use Ashtech\LaravelAuthKit\Exceptions\TooManyOtpAttemptsException;
+use Ashtech\LaravelAuthKit\Mail\OtpCodeMail;
+use Ashtech\LaravelAuthKit\Models\Otp;
+use Ashtech\LaravelAuthKit\Models\User;
+use Ashtech\LaravelAuthKit\Notifications\OtpNotification;
+use Ashtech\LaravelAuthKit\Support\OtpSendValidator;
 
 class OtpService
 {
@@ -41,7 +41,7 @@ class OtpService
 
         $this->otpRepository->invalidateForIdentifier($identifier, $channel, $purpose);
 
-        $length = (int) config('auth-package.otp.length', 6);
+        $length = (int) config('laravel-auth-kit.otp.length', 6);
         $plainCode = str_pad((string) random_int(0, (10 ** $length) - 1), $length, '0', STR_PAD_LEFT);
 
         $otp = $this->otpRepository->create([
@@ -50,7 +50,7 @@ class OtpService
             'channel' => $channel,
             'code' => Hash::make($plainCode),
             'purpose' => $purpose,
-            'expires_at' => now()->addMinutes((int) config('auth-package.otp.expires_minutes', 10)),
+            'expires_at' => now()->addMinutes((int) config('laravel-auth-kit.otp.expires_minutes', 10)),
         ]);
 
         $this->dispatch($otp, $user, $plainCode);
@@ -66,7 +66,7 @@ class OtpService
             throw new InvalidOtpException();
         }
 
-        $maxAttempts = (int) config('auth-package.otp.max_attempts', 5);
+        $maxAttempts = (int) config('laravel-auth-kit.otp.max_attempts', 5);
 
         if ($otp->attempts >= $maxAttempts) {
             throw new InvalidOtpException('Too many attempts. Request a new code.');
@@ -108,8 +108,8 @@ class OtpService
     protected function ensureNotThrottled(string $identifier, OtpChannel $channel, OtpPurpose $purpose): void
     {
         $key = $this->throttleKey($identifier, $channel, $purpose);
-        $maxAttempts = (int) config('auth-package.otp.throttle_max_attempts', 1);
-        $decaySeconds = (int) config('auth-package.otp.throttle_seconds', 60);
+        $maxAttempts = (int) config('laravel-auth-kit.otp.throttle_max_attempts', 1);
+        $decaySeconds = (int) config('laravel-auth-kit.otp.throttle_seconds', 60);
 
         if (RateLimiter::tooManyAttempts($key, $maxAttempts)) {
             throw new TooManyOtpAttemptsException(RateLimiter::availableIn($key));

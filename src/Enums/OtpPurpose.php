@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AhmedAshraf\Auth\Enums;
+namespace Ashtech\LaravelAuthKit\Enums;
 
 enum OtpPurpose: string
 {

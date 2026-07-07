@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace AhmedAshraf\Auth\Tests\Feature;
+namespace Ashtech\LaravelAuthKit\Tests\Feature;
 
 use Illuminate\Support\Facades\Hash;
-use AhmedAshraf\Auth\Models\Otp;
-use AhmedAshraf\Auth\Models\User;
-use AhmedAshraf\Auth\Tests\Support\CapturingSmsSender;
-use AhmedAshraf\Auth\Tests\TestCase;
+use Ashtech\LaravelAuthKit\Models\Otp;
+use Ashtech\LaravelAuthKit\Models\User;
+use Ashtech\LaravelAuthKit\Tests\Support\CapturingSmsSender;
+use Ashtech\LaravelAuthKit\Tests\TestCase;
 
 class OtpTest extends TestCase
 {
@@ -126,7 +126,7 @@ class OtpTest extends TestCase
 
     public function test_send_rejects_disabled_otp_channel(): void
     {
-        config(['auth-package.methods.phone_otp' => false]);
+        config(['laravel-auth-kit.methods.phone_otp' => false]);
 
         $response = $this->postJson($this->apiPrefix('otp/send'), [
             'phone' => '+201234567890',

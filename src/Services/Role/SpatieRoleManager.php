@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace AhmedAshraf\Auth\Services\Role;
+namespace Ashtech\LaravelAuthKit\Services\Role;
 
-use AhmedAshraf\Auth\Contracts\RoleManagerInterface;
-use AhmedAshraf\Auth\Models\User;
-use AhmedAshraf\Auth\Services\Role\EnumRoleManager;
+use Ashtech\LaravelAuthKit\Contracts\RoleManagerInterface;
+use Ashtech\LaravelAuthKit\Models\User;
+use Ashtech\LaravelAuthKit\Services\Role\EnumRoleManager;
 
 class SpatieRoleManager implements RoleManagerInterface
 {
@@ -66,6 +66,6 @@ class SpatieRoleManager implements RoleManagerInterface
     protected function spatieAvailable(): bool
     {
         return trait_exists(\Spatie\Permission\Traits\HasRoles::class)
-            && in_array(\Spatie\Permission\Traits\HasRoles::class, class_uses_recursive(config('auth-package.user_model')), true);
+            && in_array(\Spatie\Permission\Traits\HasRoles::class, class_uses_recursive(config('laravel-auth-kit.user_model')), true);
     }
 }

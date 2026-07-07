@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace AhmedAshraf\Auth\Tests\Feature;
+namespace Ashtech\LaravelAuthKit\Tests\Feature;
 
-use AhmedAshraf\Auth\Tests\TestCase;
+use Ashtech\LaravelAuthKit\Tests\TestCase;
 
 class RegisterTest extends TestCase
 {
@@ -63,8 +63,8 @@ class RegisterTest extends TestCase
     public function test_vendor_can_register_when_enabled(): void
     {
         config([
-            'auth-package.vendor_registration_enabled' => true,
-            'auth-package.registration_allowed_roles' => ['customer', 'vendor'],
+            'laravel-auth-kit.vendor_registration_enabled' => true,
+            'laravel-auth-kit.registration_allowed_roles' => ['customer', 'vendor'],
         ]);
 
         $response = $this->postJson($this->apiPrefix('register'), [

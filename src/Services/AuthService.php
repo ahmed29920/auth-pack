@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace AhmedAshraf\Auth\Services;
+namespace Ashtech\LaravelAuthKit\Services;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use AhmedAshraf\Auth\Contracts\RoleManagerInterface;
-use AhmedAshraf\Auth\Contracts\UserRepositoryInterface;
-use AhmedAshraf\Auth\Enums\OtpChannel;
-use AhmedAshraf\Auth\Enums\OtpPurpose;
-use AhmedAshraf\Auth\Exceptions\AccountInactiveException;
-use AhmedAshraf\Auth\Exceptions\AuthenticationException;
-use AhmedAshraf\Auth\Models\User;
+use Ashtech\LaravelAuthKit\Contracts\RoleManagerInterface;
+use Ashtech\LaravelAuthKit\Contracts\UserRepositoryInterface;
+use Ashtech\LaravelAuthKit\Enums\OtpChannel;
+use Ashtech\LaravelAuthKit\Enums\OtpPurpose;
+use Ashtech\LaravelAuthKit\Exceptions\AccountInactiveException;
+use Ashtech\LaravelAuthKit\Exceptions\AuthenticationException;
+use Ashtech\LaravelAuthKit\Models\User;
 
 class AuthService
 {
@@ -25,9 +25,9 @@ class AuthService
 
     public function register(array $data, string $client = 'api'): array
     {
-        $role = $data['role'] ?? config('auth-package.default_role', 'customer');
+        $role = $data['role'] ?? config('laravel-auth-kit.default_role', 'customer');
 
-        if (! in_array($role, config('auth-package.registration_allowed_roles', ['customer']), true)) {
+        if (! in_array($role, config('laravel-auth-kit.registration_allowed_roles', ['customer']), true)) {
             throw new \InvalidArgumentException('Role not allowed for registration.');
         }
 
@@ -110,11 +110,11 @@ class AuthService
 
     protected function resolveUserForLogin(array $data): ?User
     {
-        if (! empty($data['email']) && config('auth-package.methods.email_password')) {
+        if (! empty($data['email']) && config('laravel-auth-kit.methods.email_password')) {
             return $this->userRepository->findByEmail($data['email']);
         }
 
-        if (! empty($data['phone']) && config('auth-package.methods.phone_password')) {
+        if (! empty($data['phone']) && config('laravel-auth-kit.methods.phone_password')) {
             return $this->userRepository->findByPhone($data['phone']);
         }
 
@@ -129,13 +129,13 @@ class AuthService
             'pending_verification' => $user->pendingVerificationChannels(),
         ];
 
-        if ($client === 'api' && config('auth-package.clients.api')) {
-            $tokenName = config('auth-package.sanctum.token_name', 'auth_token');
-            $abilities = config('auth-package.sanctum.abilities', ['*']);
+        if ($client === 'api' && config('laravel-auth-kit.clients.api')) {
+            $tokenName = config('laravel-auth-kit.sanctum.token_name', 'auth_token');
+            $abilities = config('laravel-auth-kit.sanctum.abilities', ['*']);
             $payload['token'] = $user->createToken($tokenName, $abilities)->plainTextToken;
         }
 
-        if ($client === 'web' && config('auth-package.clients.web')) {
+        if ($client === 'web' && config('laravel-auth-kit.clients.web')) {
             Auth::guard('web')->login($user);
         }
 

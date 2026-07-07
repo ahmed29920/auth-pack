@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace AhmedAshraf\Auth\Http\Controllers\Api;
+namespace Ashtech\LaravelAuthKit\Http\Controllers\Api;
 
 use Illuminate\Routing\Controller;
-use AhmedAshraf\Auth\Http\Requests\Api\LoginRequest;
-use AhmedAshraf\Auth\Services\AuthService;
-use AhmedAshraf\Auth\Support\ApiResponse;
+use Ashtech\LaravelAuthKit\Http\Requests\Api\LoginRequest;
+use Ashtech\LaravelAuthKit\Services\AuthService;
+use Ashtech\LaravelAuthKit\Support\ApiResponse;
 
 class LoginController extends Controller
 {

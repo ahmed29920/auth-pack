@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace AhmedAshraf\Auth\Tests;
+namespace Ashtech\LaravelAuthKit\Tests;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use AhmedAshraf\Auth\AuthServiceProvider;
-use AhmedAshraf\Auth\Tests\Support\CapturingSmsSender;
+use Ashtech\LaravelAuthKit\AuthServiceProvider;
+use Ashtech\LaravelAuthKit\Tests\Support\CapturingSmsSender;
 use Laravel\Sanctum\SanctumServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
@@ -47,16 +47,16 @@ abstract class TestCase extends Orchestra
             'engine' => null,
         ]);
 
-        $app['config']->set('auth-package.user_model', \AhmedAshraf\Auth\Models\User::class);
-        $app['config']->set('auth-package.methods.email_password', false);
-        $app['config']->set('auth-package.methods.phone_password', true);
-        $app['config']->set('auth-package.methods.phone_otp', true);
-        $app['config']->set('auth-package.methods.email_otp', false);
-        $app['config']->set('auth-package.verification.email_required', false);
-        $app['config']->set('auth-package.verification.phone_required', false);
-        $app['config']->set('auth-package.sms.sender', CapturingSmsSender::class);
-        $app['config']->set('auth-package.otp.throttle_seconds', 0);
-        $app['config']->set('auth-package.otp.throttle_max_attempts', 100);
+        $app['config']->set('laravel-auth-kit.user_model', \Ashtech\LaravelAuthKit\Models\User::class);
+        $app['config']->set('laravel-auth-kit.methods.email_password', false);
+        $app['config']->set('laravel-auth-kit.methods.phone_password', true);
+        $app['config']->set('laravel-auth-kit.methods.phone_otp', true);
+        $app['config']->set('laravel-auth-kit.methods.email_otp', false);
+        $app['config']->set('laravel-auth-kit.verification.email_required', false);
+        $app['config']->set('laravel-auth-kit.verification.phone_required', false);
+        $app['config']->set('laravel-auth-kit.sms.sender', CapturingSmsSender::class);
+        $app['config']->set('laravel-auth-kit.otp.throttle_seconds', 0);
+        $app['config']->set('laravel-auth-kit.otp.throttle_max_attempts', 100);
     }
 
     protected function defineDatabaseMigrations(): void
@@ -67,8 +67,8 @@ abstract class TestCase extends Orchestra
 
     protected function apiPrefix(string $path = ''): string
     {
-        $prefix = trim(config('auth-package.api.prefix', 'api'), '/');
-        $version = trim(config('auth-package.api.version', 'v1'), '/');
+        $prefix = trim(config('laravel-auth-kit.api.prefix', 'api'), '/');
+        $version = trim(config('laravel-auth-kit.api.version', 'v1'), '/');
         $path = ltrim($path, '/');
 
         return '/'.$prefix.'/'.$version.'/auth'.($path !== '' ? '/'.$path : '');

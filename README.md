@@ -1,10 +1,14 @@
-# Ahmed Ashraf Laravel Auth
+# Ashtech Laravel Auth Kit
 
-Multi-vendor authentication for **Laravel 11–13** — Blade UI, REST API, roles, OTP, and email/phone verification.
+Starter-ready authentication for **Laravel 11–13** — Blade UI, REST API, roles, OTP, and email/phone verification.
 
-**Packagist:** [`ahmed-ashraf/auth`](https://packagist.org/packages/ahmed-ashraf/auth)
+**Packagist:** [`ashtech/laravel-auth-kit`](https://packagist.org/packages/ashtech/laravel-auth-kit)
 
-> **Note:** This is the current package. The legacy [`kango/auth`](https://packagist.org/packages/kango/auth) release uses the `Kango\Auth` namespace and remains available for existing projects. New projects should use `ahmed-ashraf/auth` with the `AhmedAshraf\Auth` namespace.
+```bash
+composer require ashtech/laravel-auth-kit
+```
+
+> **Note:** Legacy packages [`kango/auth`](https://packagist.org/packages/kango/auth) (`Kango\Auth`) remain for older projects. This package uses the `Ashtech\LaravelAuthKit` namespace.
 
 ## Requirements
 
@@ -32,7 +36,7 @@ Multi-vendor authentication for **Laravel 11–13** — Blade UI, REST API, role
 ### From Packagist (recommended)
 
 ```bash
-composer require ahmed-ashraf/auth
+composer require ashtech/laravel-auth-kit
 ```
 
 ### From a private Git repository
@@ -43,7 +47,7 @@ Add the repository to the host app `composer.json`, then require the package:
 "repositories": [
     {
         "type": "vcs",
-        "url": "https://github.com/ahmed29920/laravel-auth"
+        "url": "https://github.com/ashtech/laravel-auth-kit"
     }
 ],
 "minimum-stability": "stable",
@@ -51,21 +55,25 @@ Add the repository to the host app `composer.json`, then require the package:
 ```
 
 ```bash
-composer require ahmed-ashraf/auth:^1.0
+composer require ashtech/laravel-auth-kit:^1.0
 ```
 
 Use a tagged release (e.g. `v1.0.0`). The `@dev` constraint is only for local monorepo development.
 
-### Migrating from `kango/auth`
+### Migrating from legacy packages
 
-The legacy package uses the `Kango\Auth` namespace. This package uses `AhmedAshraf\Auth`. In host apps:
+| Legacy package | Old namespace | New package |
+|----------------|---------------|-------------|
+| `kango/auth` | `Kango\Auth` | `ashtech/laravel-auth-kit` |
+| `ahmed-ashraf/auth` | `AhmedAshraf\Auth` | `ashtech/laravel-auth-kit` |
 
-1. Replace the Composer dependency: `composer require ahmed-ashraf/auth`
-2. Update `use Kango\Auth\...` imports to `use AhmedAshraf\Auth\...`
-3. Update `App\Models\User` to extend `AhmedAshraf\Auth\Models\User`
-4. Update middleware references in `bootstrap/app.php` if you imported classes explicitly
+In host apps:
 
-Route names (`kango.auth.*`), Blade views (`kango-auth::`), and publish tags (`kango-auth-*`) are unchanged.
+1. `composer require ashtech/laravel-auth-kit`
+2. Update imports to `use Ashtech\LaravelAuthKit\...`
+3. Extend `Ashtech\LaravelAuthKit\Models\User`
+4. Rename env vars from `AUTH_PACKAGE_*` to `AUTH_KIT_*`
+5. Publish config tag `laravel-auth-kit-config` if you published the old config
 
 ---
 
@@ -85,16 +93,16 @@ This creates Sanctum’s `personal_access_tokens` table (required for API auth).
 ### 2. Publish package config (optional)
 
 ```bash
-php artisan vendor:publish --tag=kango-auth-config
+php artisan vendor:publish --tag=laravel-auth-kit-config
 ```
 
 Available publish tags:
 
 | Tag | Purpose |
 |-----|---------|
-| `kango-auth-config` | `config/auth-package.php` |
-| `kango-auth-migrations` | Copy migrations into `database/migrations` (only if you need to customize them) |
-| `kango-auth-views` | Copy Blade views into `resources/views/vendor/kango-auth` |
+| `laravel-auth-kit-config` | `config/laravel-auth-kit.php` |
+| `laravel-auth-kit-migrations` | Copy migrations into `database/migrations` (only if you need to customize them) |
+| `laravel-auth-kit-views` | Copy Blade views into `resources/views/vendor/laravel-auth-kit` |
 
 By default, migrations and views are loaded from the package — publishing is optional.
 
@@ -123,7 +131,7 @@ Create or update `app/Models/User.php`:
 
 namespace App\Models;
 
-use AhmedAshraf\Auth\Models\User as BaseUser;
+use Ashtech\LaravelAuthKit\Models\User as BaseUser;
 
 class User extends BaseUser
 {
@@ -151,28 +159,28 @@ use App\Models\User;
 Add to `.env`:
 
 ```env
-AUTH_PACKAGE_USER_MODEL=App\Models\User
-AUTH_PACKAGE_ROLE_DRIVER=enum
+AUTH_KIT_USER_MODEL=App\Models\User
+AUTH_KIT_ROLE_DRIVER=enum
 
 # Registration (vendor self-sign-up is disabled by default)
-# AUTH_PACKAGE_VENDOR_REGISTRATION=true
+# AUTH_KIT_VENDOR_REGISTRATION=true
 
 # Auth methods (enable what you need)
-AUTH_PACKAGE_EMAIL_PASSWORD=false
-AUTH_PACKAGE_PHONE_PASSWORD=true
-AUTH_PACKAGE_PHONE_OTP=false
-AUTH_PACKAGE_EMAIL_OTP=false
+AUTH_KIT_EMAIL_PASSWORD=false
+AUTH_KIT_PHONE_PASSWORD=true
+AUTH_KIT_PHONE_OTP=false
+AUTH_KIT_EMAIL_OTP=false
 
 # Verification gates (API + web)
-AUTH_PACKAGE_EMAIL_VERIFICATION_REQUIRED=true
-AUTH_PACKAGE_PHONE_VERIFICATION_REQUIRED=true
+AUTH_KIT_EMAIL_VERIFICATION_REQUIRED=true
+AUTH_KIT_PHONE_VERIFICATION_REQUIRED=true
 
 # OTP rate limiting
-AUTH_PACKAGE_OTP_THROTTLE_SECONDS=60
-AUTH_PACKAGE_OTP_THROTTLE_MAX=1
+AUTH_KIT_OTP_THROTTLE_SECONDS=60
+AUTH_KIT_OTP_THROTTLE_MAX=1
 
-# Optional: custom SMS driver (must implement AhmedAshraf\Auth\Contracts\SmsSenderInterface)
-# AUTH_PACKAGE_SMS_SENDER=App\\Services\\YourSmsSender
+# Optional: custom SMS driver (must implement Ashtech\LaravelAuthKit\Contracts\SmsSenderInterface)
+# AUTH_KIT_SMS_SENDER=App\\Services\\YourSmsSender
 ```
 
 ### 7. Middleware (`bootstrap/app.php`)
@@ -180,14 +188,14 @@ AUTH_PACKAGE_OTP_THROTTLE_MAX=1
 Register the verification middleware alias and optional guest redirect:
 
 ```php
-use AhmedAshraf\Auth\Http\Middleware\EnsureVerified;
+use Ashtech\LaravelAuthKit\Http\Middleware\EnsureVerified;
 
 ->withMiddleware(function (Middleware $middleware): void {
     $middleware->alias([
         'verified' => EnsureVerified::class,
     ]);
 
-    $middleware->redirectGuestsTo(fn () => route('kango.auth.login'));
+    $middleware->redirectGuestsTo(fn () => route('auth-kit.login'));
 })
 ```
 
@@ -209,21 +217,21 @@ php artisan config:clear
 
 ## Configuration
 
-Main file: `config/auth-package.php` (merged automatically; publish to override).
+Main file: `config/laravel-auth-kit.php` (merged automatically; publish to override).
 
 | Key | Env | Description |
 |-----|-----|-------------|
-| `user_model` | `AUTH_PACKAGE_USER_MODEL` | Eloquent user class |
-| `role_driver` | `AUTH_PACKAGE_ROLE_DRIVER` | `enum` or `spatie` |
-| `vendor_registration_enabled` | `AUTH_PACKAGE_VENDOR_REGISTRATION` | Allow public vendor sign-up (default: `false`) |
+| `user_model` | `AUTH_KIT_USER_MODEL` | Eloquent user class |
+| `role_driver` | `AUTH_KIT_ROLE_DRIVER` | `enum` or `spatie` |
+| `vendor_registration_enabled` | `AUTH_KIT_VENDOR_REGISTRATION` | Allow public vendor sign-up (default: `false`) |
 | `registration_allowed_roles` | — | Derived from vendor registration flag (`customer` only by default) |
-| `methods.email_password` | `AUTH_PACKAGE_EMAIL_PASSWORD` | Email + password login |
-| `methods.phone_password` | `AUTH_PACKAGE_PHONE_PASSWORD` | Phone + password login |
-| `methods.phone_otp` | `AUTH_PACKAGE_PHONE_OTP` | Phone OTP flows |
-| `methods.email_otp` | `AUTH_PACKAGE_EMAIL_OTP` | Email OTP flows |
-| `verification.email_required` | `AUTH_PACKAGE_EMAIL_VERIFICATION_REQUIRED` | Block until email verified |
-| `verification.phone_required` | `AUTH_PACKAGE_PHONE_VERIFICATION_REQUIRED` | Block until phone verified |
-| `sms.sender` | `AUTH_PACKAGE_SMS_SENDER` | SMS implementation class |
+| `methods.email_password` | `AUTH_KIT_EMAIL_PASSWORD` | Email + password login |
+| `methods.phone_password` | `AUTH_KIT_PHONE_PASSWORD` | Phone + password login |
+| `methods.phone_otp` | `AUTH_KIT_PHONE_OTP` | Phone OTP flows |
+| `methods.email_otp` | `AUTH_KIT_EMAIL_OTP` | Email OTP flows |
+| `verification.email_required` | `AUTH_KIT_EMAIL_VERIFICATION_REQUIRED` | Block until email verified |
+| `verification.phone_required` | `AUTH_KIT_PHONE_VERIFICATION_REQUIRED` | Block until phone verified |
+| `sms.sender` | `AUTH_KIT_SMS_SENDER` | SMS implementation class |
 | `translatable_locales` | — | Locales for Spatie translatable (`en`, `ar`) |
 | `available_locales` | — | Guest language switcher labels |
 | `web.prefix` | — | URL prefix for Blade routes (default: `auth`) |
@@ -239,11 +247,11 @@ composer require spatie/laravel-permission
 ```
 
 ```env
-AUTH_PACKAGE_ROLE_DRIVER=spatie
+AUTH_KIT_ROLE_DRIVER=spatie
 ```
 
 ```php
-use AhmedAshraf\Auth\Models\User as BaseUser;
+use Ashtech\LaravelAuthKit\Models\User as BaseUser;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends BaseUser
@@ -252,7 +260,7 @@ class User extends BaseUser
 }
 ```
 
-Run Spatie’s migrations and seed roles that match `config('auth-package.roles')`.
+Run Spatie’s migrations and seed roles that match `config('laravel-auth-kit.roles')`.
 
 ---
 
@@ -284,39 +292,39 @@ OTP send always returns a generic success message to avoid user enumeration. Cod
 
 ## Web routes
 
-Prefix: `/auth` (configurable via `auth-package.web.prefix`).
+Prefix: `/auth` (configurable via `laravel-auth-kit.web.prefix`).
 
 | Method | Path | Route name | Access |
 |--------|------|------------|--------|
-| GET | `/locale/{locale}` | `kango.auth.locale` | Guest |
-| GET | `/register` | `kango.auth.register` | Guest |
-| POST | `/register` | `kango.auth.register.store` | Guest |
-| GET | `/login` | `kango.auth.login` | Guest |
+| GET | `/locale/{locale}` | `auth-kit.locale` | Guest |
+| GET | `/register` | `auth-kit.register` | Guest |
+| POST | `/register` | `auth-kit.register.store` | Guest |
+| GET | `/login` | `auth-kit.login` | Guest |
 | POST | `/login` | — | Guest |
-| GET | `/password/forgot` | `kango.auth.password.forgot` | Guest |
-| POST | `/password/forgot` | `kango.auth.password.forgot.store` | Guest |
-| GET | `/password/reset/{token}` | `kango.auth.password.reset` | Guest |
-| POST | `/password/reset` | `kango.auth.password.reset.store` | Guest |
-| GET | `/password/reset-phone` | `kango.auth.password.reset-phone` | Guest |
-| POST | `/password/reset-phone` | `kango.auth.password.reset-phone.store` | Guest |
-| GET | `/verify` | `kango.auth.verify` | Auth |
-| POST | `/verify/email` | `kango.auth.verify.email` | Auth |
-| POST | `/verify/phone` | `kango.auth.verify.phone` | Auth |
-| POST | `/verify/email/resend` | `kango.auth.verify.email.resend` | Auth |
-| POST | `/verify/phone/resend` | `kango.auth.verify.phone.resend` | Auth |
-| GET | `/profile` | `kango.auth.profile` | Auth + verified |
-| POST | `/logout` | `kango.auth.logout` | Auth |
+| GET | `/password/forgot` | `auth-kit.password.forgot` | Guest |
+| POST | `/password/forgot` | `auth-kit.password.forgot.store` | Guest |
+| GET | `/password/reset/{token}` | `auth-kit.password.reset` | Guest |
+| POST | `/password/reset` | `auth-kit.password.reset.store` | Guest |
+| GET | `/password/reset-phone` | `auth-kit.password.reset-phone` | Guest |
+| POST | `/password/reset-phone` | `auth-kit.password.reset-phone.store` | Guest |
+| GET | `/verify` | `auth-kit.verify` | Auth |
+| POST | `/verify/email` | `auth-kit.verify.email` | Auth |
+| POST | `/verify/phone` | `auth-kit.verify.phone` | Auth |
+| POST | `/verify/email/resend` | `auth-kit.verify.email.resend` | Auth |
+| POST | `/verify/phone/resend` | `auth-kit.verify.phone.resend` | Auth |
+| GET | `/profile` | `auth-kit.profile` | Auth + verified |
+| POST | `/logout` | `auth-kit.logout` | Auth |
 
-Role-based redirects after login are configured under `auth-package.redirects.roles`.
+Role-based redirects after login are configured under `laravel-auth-kit.redirects.roles`.
 
 ---
 
 ## Custom SMS provider
 
-Implement `AhmedAshraf\Auth\Contracts\SmsSenderInterface` and register the class:
+Implement `Ashtech\LaravelAuthKit\Contracts\SmsSenderInterface` and register the class:
 
 ```env
-AUTH_PACKAGE_SMS_SENDER=App\\Services\\YourSmsSender
+AUTH_KIT_SMS_SENDER=App\\Services\\YourSmsSender
 ```
 
 If unset, OTP codes are written to the log via `LogSmsSender` (local development only).
@@ -342,8 +350,8 @@ composer test
 - [ ] `App\Models\User` extends package base user
 - [ ] `config/auth.php` provider uses `App\Models\User`
 - [ ] `.env` auth method and verification flags set for your product
-- [ ] `AUTH_PACKAGE_VENDOR_REGISTRATION` set intentionally (disabled by default)
-- [ ] `AUTH_PACKAGE_SMS_SENDER` configured (do not rely on log driver in production)
+- [ ] `AUTH_KIT_VENDOR_REGISTRATION` set intentionally (disabled by default)
+- [ ] `AUTH_KIT_SMS_SENDER` configured (do not rely on log driver in production)
 - [ ] `verified` middleware registered; guest redirect configured if needed
 - [ ] `php artisan config:cache` run in deployment pipeline after env is set
 - [ ] HTTPS enabled for session cookies and Sanctum tokens

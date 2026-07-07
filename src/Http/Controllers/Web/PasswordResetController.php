@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace AhmedAshraf\Auth\Http\Controllers\Web;
+namespace Ashtech\LaravelAuthKit\Http\Controllers\Web;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Validation\ValidationException;
-use AhmedAshraf\Auth\Http\Requests\Api\ForgotPasswordRequest;
-use AhmedAshraf\Auth\Http\Requests\Api\ResetPasswordRequest;
-use AhmedAshraf\Auth\Services\PasswordResetService;
-use AhmedAshraf\Auth\Support\AuthMethods;
+use Ashtech\LaravelAuthKit\Http\Requests\Api\ForgotPasswordRequest;
+use Ashtech\LaravelAuthKit\Http\Requests\Api\ResetPasswordRequest;
+use Ashtech\LaravelAuthKit\Services\PasswordResetService;
+use Ashtech\LaravelAuthKit\Support\AuthMethods;
 
 class PasswordResetController extends Controller
 {
@@ -20,7 +20,7 @@ class PasswordResetController extends Controller
 
     public function createForgot()
     {
-        return view('kango-auth::auth.password.forgot');
+        return view('laravel-auth-kit::auth.password.forgot');
     }
 
     public function storeForgot(ForgotPasswordRequest $request)
@@ -37,12 +37,12 @@ class PasswordResetController extends Controller
             $this->passwordResetService->sendPhoneOtp($data['phone']);
 
             return redirect()
-                ->route('kango.auth.password.reset-phone', ['phone' => $data['phone']])
-                ->with('status', __('kango-auth::auth.forgot.otp_sent'));
+                ->route('auth-kit.password.reset-phone', ['phone' => $data['phone']])
+                ->with('status', __('laravel-auth-kit::auth.forgot.otp_sent'));
         }
 
         throw ValidationException::withMessages([
-            'email' => [__('kango-auth::auth.forgot.invalid_method')],
+            'email' => [__('laravel-auth-kit::auth.forgot.invalid_method')],
         ]);
     }
 
@@ -52,7 +52,7 @@ class PasswordResetController extends Controller
             abort(404);
         }
 
-        return view('kango-auth::auth.password.reset', [
+        return view('laravel-auth-kit::auth.password.reset', [
             'token' => $token,
             'email' => $request->query('email', ''),
         ]);
@@ -69,7 +69,7 @@ class PasswordResetController extends Controller
         }
 
         return redirect()
-            ->route('kango.auth.login')
+            ->route('auth-kit.login')
             ->with('status', __($message));
     }
 
@@ -82,10 +82,10 @@ class PasswordResetController extends Controller
         $phone = $request->query('phone', session('reset_phone'));
 
         if (! $phone) {
-            return redirect()->route('kango.auth.password.forgot');
+            return redirect()->route('auth-kit.password.forgot');
         }
 
-        return view('kango-auth::auth.password.reset-phone', [
+        return view('laravel-auth-kit::auth.password.reset-phone', [
             'phone' => $phone,
         ]);
     }
@@ -107,7 +107,7 @@ class PasswordResetController extends Controller
         }
 
         return redirect()
-            ->route('kango.auth.login')
-            ->with('status', __('kango-auth::auth.reset.password_changed'));
+            ->route('auth-kit.login')
+            ->with('status', __('laravel-auth-kit::auth.reset.password_changed'));
     }
 }

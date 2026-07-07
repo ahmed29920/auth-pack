@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace AhmedAshraf\Auth\Http\Requests\Api;
+namespace Ashtech\LaravelAuthKit\Http\Requests\Api;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Validator;
-use AhmedAshraf\Auth\Http\Requests\Concerns\ValidatesGuestOtpInput;
+use Ashtech\LaravelAuthKit\Http\Requests\Concerns\ValidatesGuestOtpInput;
 
 class VerifyOtpRequest extends FormRequest
 {
@@ -20,7 +20,7 @@ class VerifyOtpRequest extends FormRequest
     public function rules(): array
     {
         return array_merge($this->guestOtpIdentifierRules(), [
-            'code' => ['required', 'string', 'size:'.config('auth-package.otp.length', 6)],
+            'code' => ['required', 'string', 'size:'.config('laravel-auth-kit.otp.length', 6)],
         ]);
     }
 

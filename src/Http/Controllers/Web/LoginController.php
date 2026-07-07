@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace AhmedAshraf\Auth\Http\Controllers\Web;
+namespace Ashtech\LaravelAuthKit\Http\Controllers\Web;
 
 use Illuminate\Routing\Controller;
-use AhmedAshraf\Auth\Http\Requests\Api\LoginRequest;
-use AhmedAshraf\Auth\Services\AuthService;
-use AhmedAshraf\Auth\Support\AuthRedirect;
+use Ashtech\LaravelAuthKit\Http\Requests\Api\LoginRequest;
+use Ashtech\LaravelAuthKit\Services\AuthService;
+use Ashtech\LaravelAuthKit\Support\AuthRedirect;
 
 class LoginController extends Controller
 {
@@ -17,7 +17,7 @@ class LoginController extends Controller
 
     public function create()
     {
-        return view('kango-auth::auth.login');
+        return view('laravel-auth-kit::auth.login');
     }
 
     public function store(LoginRequest $request)
@@ -25,7 +25,7 @@ class LoginController extends Controller
         $result = $this->authService->login($request->validated(), 'web');
 
         if ($result['verification_required'] ?? false) {
-            return redirect()->route('kango.auth.verify');
+            return redirect()->route('auth-kit.verify');
         }
 
         return redirect()->intended(AuthRedirect::homeFor($request->user()));
@@ -35,6 +35,6 @@ class LoginController extends Controller
     {
         $this->authService->logout(request()->user(), 'web');
 
-        return redirect(config('auth-package.web.redirect_after_logout', '/auth/login'));
+        return redirect(config('laravel-auth-kit.web.redirect_after_logout', '/auth/login'));
     }
 }

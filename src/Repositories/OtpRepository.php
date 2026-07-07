@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace AhmedAshraf\Auth\Repositories;
+namespace Ashtech\LaravelAuthKit\Repositories;
 
-use AhmedAshraf\Auth\Contracts\OtpRepositoryInterface;
-use AhmedAshraf\Auth\Enums\OtpChannel;
-use AhmedAshraf\Auth\Enums\OtpPurpose;
-use AhmedAshraf\Auth\Models\Otp;
+use Ashtech\LaravelAuthKit\Contracts\OtpRepositoryInterface;
+use Ashtech\LaravelAuthKit\Enums\OtpChannel;
+use Ashtech\LaravelAuthKit\Enums\OtpPurpose;
+use Ashtech\LaravelAuthKit\Models\Otp;
 
 class OtpRepository implements OtpRepositoryInterface
 {

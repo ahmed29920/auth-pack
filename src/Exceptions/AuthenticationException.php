@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AhmedAshraf\Auth\Exceptions;
+namespace Ashtech\LaravelAuthKit\Exceptions;
 
 use Exception;
 

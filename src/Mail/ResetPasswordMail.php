@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AhmedAshraf\Auth\Mail;
+namespace Ashtech\LaravelAuthKit\Mail;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
@@ -24,14 +24,14 @@ class ResetPasswordMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: __('kango-auth::auth.mail.reset_password_subject', ['app' => config('app.name')]),
+            subject: __('laravel-auth-kit::auth.mail.reset_password_subject', ['app' => config('app.name')]),
         );
     }
 
     public function content(): Content
     {
         return new Content(
-            view: 'kango-auth::mail.reset-password',
+            view: 'laravel-auth-kit::mail.reset-password',
             with: [
                 'resetUrl' => $this->resetUrl,
                 'recipientName' => $this->recipientName,

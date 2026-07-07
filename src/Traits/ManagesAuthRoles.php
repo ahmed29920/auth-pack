@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace AhmedAshraf\Auth\Traits;
+namespace Ashtech\LaravelAuthKit\Traits;
 
-use AhmedAshraf\Auth\Contracts\RoleManagerInterface;
-use AhmedAshraf\Auth\Enums\UserRole;
+use Ashtech\LaravelAuthKit\Contracts\RoleManagerInterface;
+use Ashtech\LaravelAuthKit\Enums\UserRole;
 
 trait ManagesAuthRoles
 {

@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-namespace AhmedAshraf\Auth\Support;
+namespace Ashtech\LaravelAuthKit\Support;
 
-use AhmedAshraf\Auth\Models\User;
+use Ashtech\LaravelAuthKit\Models\User;
 
 final class AuthRedirect
 {
     public static function homeFor(User $user): string
     {
         $role = $user->getAuthRole();
-        $roles = config('auth-package.redirects.roles', []);
+        $roles = config('laravel-auth-kit.redirects.roles', []);
 
         if ($role && isset($roles[$role])) {
             return $roles[$role];
         }
 
-        return config('auth-package.redirects.default', '/');
+        return config('laravel-auth-kit.redirects.default', '/');
     }
 }

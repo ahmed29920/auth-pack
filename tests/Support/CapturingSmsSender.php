@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace AhmedAshraf\Auth\Tests\Support;
+namespace Ashtech\LaravelAuthKit\Tests\Support;
 
-use AhmedAshraf\Auth\Contracts\SmsSenderInterface;
-use AhmedAshraf\Auth\Enums\OtpPurpose;
-use AhmedAshraf\Auth\Models\User;
+use Ashtech\LaravelAuthKit\Contracts\SmsSenderInterface;
+use Ashtech\LaravelAuthKit\Enums\OtpPurpose;
+use Ashtech\LaravelAuthKit\Models\User;
 
 final class CapturingSmsSender implements SmsSenderInterface
 {

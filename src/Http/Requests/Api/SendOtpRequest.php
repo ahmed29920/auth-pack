@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace AhmedAshraf\Auth\Http\Requests\Api;
+namespace Ashtech\LaravelAuthKit\Http\Requests\Api;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Validator;
-use AhmedAshraf\Auth\Http\Requests\Concerns\ValidatesGuestOtpInput;
+use Ashtech\LaravelAuthKit\Http\Requests\Concerns\ValidatesGuestOtpInput;
 
 class SendOtpRequest extends FormRequest
 {

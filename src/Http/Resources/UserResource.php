@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace AhmedAshraf\Auth\Http\Resources;
+namespace Ashtech\LaravelAuthKit\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use AhmedAshraf\Auth\Contracts\RoleManagerInterface;
+use Ashtech\LaravelAuthKit\Contracts\RoleManagerInterface;
 
 class UserResource extends JsonResource
 {
